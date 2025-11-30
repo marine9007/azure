@@ -21,12 +21,13 @@ resource "azurerm_storage_account" "main" {
   account_replication_type        = var.storage_account_replication
   allow_nested_items_to_be_public = false
 
-  # Enable static website hosting (free)
-  static_website {
-    index_document = "index.html"
-  }
-
   tags = local.common_tags
+}
+
+# Enable static website hosting (free)
+resource "azurerm_storage_account_static_website" "main" {
+  storage_account_id = azurerm_storage_account.main.id
+  index_document     = "index.html"
 }
 
 # Storage Container (free)
